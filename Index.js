@@ -1,6 +1,7 @@
 // index.js
 import express from 'express';
 import { sum_to_n_a, sum_to_n_b, sum_to_n_c } from './src/problem4/summation_solution.js';
+import CrudUser from '../code-challenge/src/problem5/CrudUser.js'
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -10,7 +11,6 @@ app.use(express.urlencoded({ extended: true })); // for parsing form data
 
 // Basic route
 app.get('/problem4', (req, res) => {
-
   try{
     const results = {
       forLoop: sum_to_n_a(5),
@@ -24,6 +24,7 @@ app.get('/problem4', (req, res) => {
   }
 });
 
+app.use('/problem5/users', CrudUser);
 
 // Start server
 app.listen(PORT, () => {
