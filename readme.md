@@ -154,8 +154,8 @@ DELETE /problem5/users/1
 # 🚀 Running the Server
 
 ## 1. Start the Application
-Make sure you’ve installed dependencies (`npm install`).  
-Then start the server with:
+ 
+Start the server with:
 
 ```bash
 npm start
@@ -238,3 +238,16 @@ curl -X DELETE http://localhost:3000/problem5/users/1
 - **POST/PUT/DELETE** require tools like curl, Postman, or any REST client.  
 - `created_at` and `updated_at` fields are automatically managed by the database and included in responses.
 
+---
+
+## 1. Running TestCase
+ 
+Start the Server with:
+
+```bash
+npm test
+```
+
+Writting the npm test in terminal will run the integration test
+
+---

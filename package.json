@@ -4,7 +4,7 @@
   "description": "Note that if you fork this repository, your responses may be publicly linked to this repo.  \r Please submit your application along with the solutions attached or linked.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "vitest",
     "start": "nodemon index.js"
   },
   "repository": {
@@ -25,6 +25,8 @@
     "express-router": "^0.0.1"
   },
   "devDependencies": {
-    "nodemon": "^3.1.11"
+    "nodemon": "^3.1.11",
+    "supertest": "^7.2.2",
+    "vitest": "^4.0.18"
   }
 }
