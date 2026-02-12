@@ -25,11 +25,16 @@ db.prepare(`
   AFTER UPDATE ON users
   BEGIN
     UPDATE users
-    SET created_at = CURRENT_TIMESTAMP,
-        updated_at = CURRENT_TIMESTAMP
+    SET updated_at = CURRENT_TIMESTAMP
     WHERE id = NEW.id;
   END;
 `).run();
 
+const pragma = db.prepare("PRAGMA table_info(users)").all();
+const hasScore = pragma.some(col => col.name === "score");
+
+if (!hasScore) {
+  db.prepare("ALTER TABLE users ADD COLUMN score INTEGER DEFAULT 0").run();
+}
 // Export the connection so other modules can use it
 export default db;
