@@ -6,6 +6,11 @@ import { sum_to_n_a, sum_to_n_b, sum_to_n_c } from './src/problem4/summation_sol
 import CrudUser from '../code-challenge/src/problem5/CrudUser.js';
 import Architecture from './src/problem6/Architecture.js';
 
+import dotenv from 'dotenv';
+
+
+dotenv.config(); // loads .env file into process.env
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 

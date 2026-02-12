@@ -2,6 +2,7 @@ import express from 'express';
 import db from '../db.js';
 import { broadcastProblem6 } from '../../WebSocket.js';
 import quizQuestions from './QuizAndAns.js';
+import Authorization from '../middlewares/authorization.js';
 
 const router = express.Router();
 
@@ -21,10 +22,12 @@ router.get('/leaderboard', (req, res) => {
   }
 });
 
-router.post("/submit-quiz", (req, res) => {
+router.post("/submit-quiz", Authorization, (req, res) => {
   try {
-    const { userId, answers } = req.body; 
+    const { answers } = req.body; 
     // answers = [{ questionId: 1, answer: "4" }, { questionId: 2, answer: "Paris" }]
+
+    let userId = req.userId;
 
     let points = 0;
     answers.forEach(ans => {
