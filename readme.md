@@ -296,16 +296,41 @@ The system updates automatically whenever a user completes an action (e.g., subm
 
 ---
 
-## 🛠️ Running Problem6
-1. Install dependencies:
+
+### 🛠️ Running Problem6
+
+1. Install dependencies:  
    ```bash
    npm install
    ```
-2. Start the backend:
+
+2. Initialize environment file (creates `.env` with placeholders): 
+
+   ```bash
+   npm run env:init
+   ```
+   This will scaffold a `.env` file containing:
+   ```
+   PORT=3000
+   JWT_KEY=
+   ```
+
+3. Generate a secure JWT key (fill in `jwt_key`): 
+ 
+   ```bash
+   node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
+   ```
+   Copy the output and paste it into `.env`:
+   ```
+   jwt_key=your_generated_secret_here
+   ```
+
+4. Start the backend:  
    ```bash
    npm start
    ```
-3. Run the WebSocket client (optional, for testing):
+
+5. Run the WebSocket client (optional, for testing):  
    ```bash
    npm run live
    ```

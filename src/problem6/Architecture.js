@@ -3,6 +3,7 @@ import db from '../db.js';
 import { broadcastProblem6 } from '../../WebSocket.js';
 import quizQuestions from './QuizAndAns.js';
 import Authorization from '../middlewares/authorization.js';
+import { userLimiter, ipLimiter } from '../middlewares/ratelimiter.js';
 
 const router = express.Router();
 
@@ -22,7 +23,7 @@ router.get('/leaderboard', (req, res) => {
   }
 });
 
-router.post("/submit-quiz", Authorization, (req, res) => {
+router.post("/submit-quiz", Authorization, userLimiter, ipLimiter, (req, res) => {
   try {
     const { answers } = req.body; 
     // answers = [{ questionId: 1, answer: "4" }, { questionId: 2, answer: "Paris" }]
@@ -46,7 +47,7 @@ router.post("/submit-quiz", Authorization, (req, res) => {
     }
 
     // Fetch updated leaderboard
-    const users = db.prepare("SELECT name, score FROM users LIMIT 10 ORDER BY score DESC").all();
+    const users = db.prepare("SELECT name, score FROM users ORDER BY score DESC LIMIT 10").all();
     
     // Broadcast live update
     broadcastProblem6({ type: 'leaderboardUpdate', leaderboard: users });
