@@ -315,7 +315,7 @@ Note: Problem 6 uses the same user table used by problem 5. Users should be adde
 
 ---
 
-Visual Diagram that Illustrate Flow Of Execution.
+## Visual Diagram that Illustrate Flow Of Execution.
 
 +------------------+
 |                  |
