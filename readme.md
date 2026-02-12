@@ -312,6 +312,7 @@ The system updates automatically whenever a user completes an action (e.g., subm
    *(configured in `package.json` to run Server and `node client.js` Silmutaneously)*
 
 Note: Problem 6 uses the same user table used by problem 5. Users should be added first and then for problem 6, updating score through submit-quiz will trigger broadcast to send to all clients. to test it npm run live must be used.
+
 ---
 
 ## 🔜 Next Steps
