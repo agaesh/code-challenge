@@ -315,6 +315,53 @@ Note: Problem 6 uses the same user table used by problem 5. Users should be adde
 
 ---
 
+Visual Diagram that Illustrate Flow Of Execution.
+
++------------------+
+|                  |
+|   Client UI      |
+| (Browser/CLI)    |
+|                  |
++--------+---------+
+         |
+         | 1. POST /problem6/submit-quiz
+         v
++---------------------------+
+|                           |
+|   API Server              |
+| (Architecture.js)         |
+|                           |
++--------+------------------+
+         |
+         | 2. Save / update score
+         v
++---------------------------+
+|                           |
+|   Database                |
+| (better-sqlite3)          |
+|                           |
++--------+------------------+
+         |
+         | 3. Read top 10 scores
+         |    (trigger after update)
+         v
++---------------------------+
+|                           |
+|   WebSocket Server (ws)   |
+|                           |
++--------+------------------+
+         |
+         | 4. Broadcast leaderboard
+         v
++---------------------------+
+|                           |
+|   Client Terminal / UI    |
+| (Client.js listening)     |
+|                           |
++---------------------------+
+
+---
+
 ## 🔜 Next Steps
 - Implement **authorization and validation** to prevent malicious users from inflating scores.  
 - Add **audit logging** for score updates.  
