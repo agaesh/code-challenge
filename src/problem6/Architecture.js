@@ -43,7 +43,7 @@ router.post("/submit-quiz", (req, res) => {
     }
 
     // Fetch updated leaderboard
-    const users = db.prepare("SELECT name, score FROM users ORDER BY score DESC").all();
+    const users = db.prepare("SELECT name, score FROM users LIMIT 10 ORDER BY score DESC").all();
     
     // Broadcast live update
     broadcastProblem6({ type: 'leaderboardUpdate', leaderboard: users });
