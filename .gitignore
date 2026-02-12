@@ -14,3 +14,4 @@ Thumbs.db
 
 # Optional: lock file (depends on team policy)
 package-lock.jsons
+.env
