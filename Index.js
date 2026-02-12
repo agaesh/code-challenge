@@ -7,7 +7,7 @@ import CrudUser from '../code-challenge/src/problem5/CrudUser.js';
 import Architecture from './src/problem6/Architecture.js';
 
 import dotenv from 'dotenv';
-
+import helmet from 'helmet';
 
 dotenv.config(); // loads .env file into process.env
 
@@ -16,6 +16,7 @@ const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(helmet()); //to avoid clickjacking, XSS and browser based attacks
 
 app.get('/problem4', (req, res) => {
   try {
