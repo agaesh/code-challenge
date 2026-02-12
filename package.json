@@ -6,7 +6,8 @@
   "scripts": {
     "test": "vitest",
     "start": "nodemon index.js",
-    "live": "concurrently \"npm start\" \"node client.js\""
+    "live": "concurrently \"npm start\" \"node client.js\"",
+    "env:init": "echo 'JWT_KEY=' > .env"
   },
   "repository": {
     "type": "git",
