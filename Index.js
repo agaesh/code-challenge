@@ -1,36 +1,39 @@
-// index.js
 import express from 'express';
+import { WebSocketServer } from 'ws';
+import { initWebSocket } from './WebSocket.js';
+
 import { sum_to_n_a, sum_to_n_b, sum_to_n_c } from './src/problem4/summation_solution.js';
-import CrudUser from '../code-challenge/src/problem5/CrudUser.js'
+import CrudUser from '../code-challenge/src/problem5/CrudUser.js';
+import Architecture from './src/problem6/Architecture.js';
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Middleware
-app.use(express.json()); // for parsing JSON bodies
-app.use(express.urlencoded({ extended: true })); // for parsing form data
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-// Basic route
 app.get('/problem4', (req, res) => {
-  try{
+  try {
     const results = {
       forLoop: sum_to_n_a(5),
       reducer: sum_to_n_b(5),
       recursion: sum_to_n_c(5)
     };
-
-    res.json(results); // sends results back to client
-  }catch(e){
-    res.status(500).json(error);
+    res.json(results);
+  } catch (e) {
+    res.status(500).json({ error: e.message });
   }
 });
 
 app.use('/problem5/users', CrudUser);
+app.use('/problem6', Architecture);
 
-// Start server 
-if (process.env.NODE_ENV !== 'test') {
-  app.listen(PORT, () => {
-    console.log(`Server running at http://localhost:${PORT}`);
-  });
-}
+const server = app.listen(PORT, () => {
+  console.log(`Server running at http://localhost:${PORT}`);
+});
 
-export default app;
+const wss = new WebSocketServer({ server });
+
+initWebSocket(wss);
+
+export { app };
