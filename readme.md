@@ -251,3 +251,73 @@ npm test
 Writting the npm test in terminal will run the integration test
 
 ---
+
+# Code Challenge – Problem 6: Live Leaderboard (Partial)
+
+## 📌 Overview
+Problem6 implements a **real-time scoreboard** that displays the top 10 user scores.  
+The system updates automatically whenever a user completes an action (e.g., submitting a quiz).  
+
+### Features Implemented
+1. **Scoreboard** – shows the top 10 users by score.  
+2. **Live updates** – leaderboard is broadcast via WebSocket to all connected clients.  
+3. **User actions** – completing an action increases the user’s score.  
+4. **API integration** – backend updates the database and dispatches leaderboard updates via broadcast.  
+5. **Security/authorization** – **not yet implemented** (malicious score inflation prevention still pending).  
+
+---
+
+## 🚀 Endpoints
+- `GET /problem6/leaderboard`  
+  Returns the current top 10 users and broadcasts the leaderboard to WebSocket clients.
+
+- `POST /problem6/submit-quiz`  
+  Accepts quiz answers, calculates points, updates the user’s score, and broadcasts the updated leaderboard.
+
+---
+
+## 📂 Files
+- **Client.js**  
+  WebSocket client that connects to `ws://localhost:3000` and listens for real-time leaderboard updates.
+
+- **src/problem/QuizAndAns.js**  
+  Contains quiz questions, options, and correct answers used to calculate score increments.
+
+- **src/problem/Architecture.js**  
+  Defines Problem6 routes:  
+  - `/problem6/leaderboard`  
+  - `/problem6/submit-quiz`
+
+---
+
+## 📦 Packages Used
+- **ws** – WebSocket server and client for real-time communication.  
+- **better-sqlite3** – lightweight SQLite database for storing and updating user scores.  
+
+---
+
+## 🛠️ Running Problem6
+1. Install dependencies:
+   ```bash
+   npm install
+   ```
+2. Start the backend:
+   ```bash
+   npm start
+   ```
+3. Run the WebSocket client (optional, for testing):
+   ```bash
+   npm run live
+   ```
+   *(configured in `package.json` to run Server and `node client.js` Silmutaneously)*
+
+Note: Problem 6 uses the same user table used by problem 5. Users should be added first and then for problem 6, updating score through submit-quiz will trigger broadcast to send to all clients. to test it npm run live must be used.
+---
+
+## 🔜 Next Steps
+- Implement **authorization and validation** to prevent malicious users from inflating scores.  
+- Add **audit logging** for score updates.  
+- Extend Client.js to display leaderboard visually in the browser.  
+
+---
+
