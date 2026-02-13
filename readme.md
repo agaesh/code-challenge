@@ -419,9 +419,64 @@ simple way to describe and set up JWT Bearer authorization in Postman:
 
 ---
 
-## 🔜 Next Steps 
-- Add **audit logging** for score updates.  
-- Extend Client.js to display leaderboard visually in the browser.  
+Here’s a **README section** you can add to your project that documents the security enhancements you’ve implemented:
 
+---
+
+# 🛡️ Security Enhancements
+
+This project includes multiple layers of security to protect API endpoints, user data, and application integrity.  
+
+## Features Implemented
+
+### 1. **Audit Logging**
+- Added `auditLogger.js` to record all critical events into a log file.  
+- Logs include:  
+  - Authorization attempts (success/failure).  
+  - Quiz submission attempts, successes, and errors.  
+  - Invalid input submissions.  
+- Each log entry captures **event type, userId, IP address (normalized to IPv4), and timestamp**.
+
+### 2. **Authorization (JWT)**
+- Middleware verifies JWT tokens before granting access to protected routes.  
+- Attaches `userId` to the request object for downstream use.  
+- Unauthorized or invalid tokens are logged and blocked.
+
+### 3. **Rate Limiting**
+- Implemented **per-user** and **per-IP** rate limiting.  
+- Prevents brute-force attacks and abuse of endpoints.  
+- Logs excessive request attempts for monitoring.
+
+### 4. **Helmet Integration**
+- Uses [Helmet](https://helmetjs.github.io/) to set secure HTTP headers.  
+- Protects against common web vulnerabilities such as:  
+  - Cross-Site Scripting (XSS).  
+  - Clickjacking.  
+  - MIME sniffing.  
+
+### 5. **Input Validation (Joi)**
+- All incoming payloads are validated using **Joi schemas**.  
+- Example: `answers` array in `/submit-quiz` must contain valid `questionId` (integer) and `answer` (string).  
+- Invalid inputs are rejected with clear error messages and logged for audit.
+
+### 6. **IP Normalization**
+- Added `getClientIp.js` helper to ensure consistent IPv4 logging.  
+- Converts `::1` (IPv6 localhost) to `127.0.0.1`.  
+- Strips IPv6 prefixes like `::ffff:` to log clean IPv4 addresses.
+
+---
+
+## Benefits
+- **Defense in depth**: multiple layers (auth, rate limiting, validation, headers).  
+- **Visibility**: audit logs provide a clear trail of all access attempts and actions.  
+- **Resilience**: prevents malformed input, brute-force attacks, and common exploits.  
+- **Maintainability**: reusable helpers and middleware keep security consistent across routes.
+
+---
+
+✅ With these enhancements, the application is significantly hardened against abuse, unauthorized access, and common malware vectors.  
+
+## 🔜   Improvement
+- Extend Client.js to display leaderboard visually in the browser required frontend implementation.  
 ---
 
