@@ -6,7 +6,7 @@ import Authorization from '../middlewares/authorization.js';
 import { userLimiter, ipLimiter } from '../middlewares/ratelimiter.js';
 import logEvent from '../middlewares/auditLogger.js';
 import getClientIp from '../middlewares/getClientIp.js';
-
+import quizSchema from '../middlewares/QuizValidator.js';
 const router = express.Router();
 
 router.get('/leaderboard', (req, res) => {
@@ -27,11 +27,18 @@ router.get('/leaderboard', (req, res) => {
 
 router.post("/submit-quiz", Authorization, userLimiter, ipLimiter, (req, res) => {
   try {
-    const { answers } = req.body; 
-    // answers = [{ questionId: 1, answer: "4" }, { questionId: 2, answer: "Paris" }]
-
-    let userId = req.userId;
+    const { error, value } = quizSchema.validate(req.body, { abortEarly: false });
     let ip = req.ip;
+
+    if (error) {
+      logEvent("quiz_submission_invalid_input", req.userId, getClientIp(ip));
+      return res.status(400).json({ error: error.details.map(d => d.message) });
+    }
+
+    const { answers } = value; 
+    // answers = [{ questionId: 1, answer: "4" }, { questionId: 2, answer: "Paris" }]
+    let userId = req.userId;
+    
 
     let points = 0;
     answers.forEach(ans => {
