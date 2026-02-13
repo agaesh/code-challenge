@@ -374,10 +374,11 @@ simple way to describe and set up JWT Bearer authorization in Postman:
 
 ## Visual Diagram that Illustrate Flow Of Execution.
 
+```bash
 +------------------+
 |                  |
 |   Client UI      |
-| (Browser/CLI)    |
+| (Browser / CLI)  |
 |                  |
 +--------+---------+
          |
@@ -416,10 +417,7 @@ simple way to describe and set up JWT Bearer authorization in Postman:
 | (Client.js listening)     |
 |                           |
 +---------------------------+
-
----
-
-Here’s a **README section** you can add to your project that documents the security enhancements you’ve implemented:
+```
 
 ---
 
