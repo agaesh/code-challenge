@@ -316,7 +316,7 @@ The system updates automatically whenever a user completes an action (e.g., subm
    ```
 
 3. Generate a secure JWT key (fill in `jwt_key`): 
- 
+
    ```bash
    node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
    ```
@@ -336,7 +336,39 @@ The system updates automatically whenever a user completes an action (e.g., subm
    ```
    *(configured in `package.json` to run Server and `node client.js` Silmutaneously)*
 
-Note: Problem 6 uses the same user table used by problem 5. Users should be added first and then for problem 6, updating score through submit-quiz will trigger broadcast to send to all clients. to test it npm run live must be used.
+6. POST submit-quiz
+
+  ```bash
+   http://localhost:3000/problem6/submit-quiz 
+  ```
+
+![alt text](image-1.png)
+
+simple way to describe and set up JWT Bearer authorization in Postman:
+
+---
+
+### How to Set Authorization (JWT Bearer)
+
+1. **Go to Authorization tab**  
+   - In your request window, open the **Authorization** tab.
+
+2. **Choose JWT Bearer**  
+   - From the dropdown, select **JWT Bearer**.
+
+3. **Fill in details**  
+   - **Algorithm**: Pick the one your backend uses (commonly **HS256**).  
+   - **Secret Key**: Enter the secret key that signs your JWT.
+
+4. **Send the request**  
+   - Postman will add the header automatically:  
+     ```
+     Authorization: Bearer <your_token>
+     ```
+   - Click **Send** to test.
+
+5. **Check the response**  
+   - If the token is valid, you’ll see a success message with data (like `success: true`, `pointsEarned`, and `leaderboard`).
 
 ---
 
@@ -387,8 +419,7 @@ Note: Problem 6 uses the same user table used by problem 5. Users should be adde
 
 ---
 
-## 🔜 Next Steps
-- Implement **authorization and validation** to prevent malicious users from inflating scores.  
+## 🔜 Next Steps 
 - Add **audit logging** for score updates.  
 - Extend Client.js to display leaderboard visually in the browser.  
 
