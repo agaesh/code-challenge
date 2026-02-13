@@ -4,6 +4,8 @@ import { broadcastProblem6 } from '../../WebSocket.js';
 import quizQuestions from './QuizAndAns.js';
 import Authorization from '../middlewares/authorization.js';
 import { userLimiter, ipLimiter } from '../middlewares/ratelimiter.js';
+import logEvent from '../middlewares/auditLogger.js';
+import getClientIp from '../middlewares/getClientIp.js';
 
 const router = express.Router();
 
@@ -29,6 +31,7 @@ router.post("/submit-quiz", Authorization, userLimiter, ipLimiter, (req, res) =>
     // answers = [{ questionId: 1, answer: "4" }, { questionId: 2, answer: "Paris" }]
 
     let userId = req.userId;
+    let ip = req.ip;
 
     let points = 0;
     answers.forEach(ans => {
@@ -43,6 +46,7 @@ router.post("/submit-quiz", Authorization, userLimiter, ipLimiter, (req, res) =>
 
     // If no rows updated, user not found
     if (result.changes === 0) {
+      logEvent("quiz_submission_failed_user_not_found", userId, getClientIp(ip));
       return res.status(404).json({ error: "User not found" });
     }
 
@@ -51,11 +55,12 @@ router.post("/submit-quiz", Authorization, userLimiter, ipLimiter, (req, res) =>
     
     // Broadcast live update
     broadcastProblem6({ type: 'leaderboardUpdate', leaderboard: users });
-
+    logEvent("quiz_submission_success", userId, getClientIp(ip));
     res.json({ success: true, pointsEarned: points, leaderboard: users });
+
   } catch (err) {
     console.error(err);
-    broadcastProblem6({ type: 'error', message: 'Quiz submission failed' });
+    logEvent("quiz_submission_error", req.userId, getClientIp(ip));
     res.status(500).json({ error: "Failed to submit quiz" });
   }
 });
